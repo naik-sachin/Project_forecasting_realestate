@@ -1,72 +1,28 @@
 
-# Mod 4 Project - Starter Notebook
-
-This notebook has been provided to you so that you can make use of the following starter code to help with the trickier parts of preprocessing the Zillow dataset. 
-
-The notebook contains a rough outline the general order you'll likely want to take in this project. You'll notice that most of the areas are left blank. This is so that it's more obvious exactly when you should make use of the starter code provided for preprocessing. 
-
-**_NOTE:_** The number of empty cells are not meant to infer how much or how little code should be involved in any given step--we've just provided a few for your convenience. Add, delete, and change things around in this notebook as needed!
-
-# Some Notes Before Starting
-
-This project will be one of the more challenging projects you complete in this program. This is because working with Time Series data is a bit different than working with regular datasets. In order to make this a bit less frustrating and help you understand what you need to do (and when you need to do it), we'll quickly review the dataset formats that you'll encounter in this project. 
-
-## Wide Format vs Long Format
-
-If you take a look at the format of the data in `zillow_data.csv`, you'll notice that the actual Time Series values are stored as separate columns. Here's a sample: 
-
-<img src='~/../images/df_head.png'>
-
-You'll notice that the first seven columns look like any other dataset you're used to working with. However, column 8 refers to the median housing sales values for April 1996, column 9 for May 1996, and so on. This This is called **_Wide Format_**, and it makes the dataframe intuitive and easy to read. However, there are problems with this format when it comes to actually learning from the data, because the data only makes sense if you know the name of the column that the data can be found it. Since column names are metadata, our algorithms will miss out on what dates each value is for. This means that before we pass this data to our ARIMA model, we'll need to reshape our dataset to **_Long Format_**. Reshaped into long format, the dataframe above would now look like:
-
-<img src='~/../images/melted1.png'>
-
-There are now many more rows in this dataset--one for each unique time and zipcode combination in the data! Once our dataset is in this format, we'll be able to train an ARIMA model on it. The method used to convert from Wide to Long is `pd.melt()`, and it is common to refer to our dataset as 'melted' after the transition to denote that it is in long format. 
-
-# Helper Functions Provided
-
-Melting a dataset can be tricky if you've never done it before, so you'll see that we have provided a sample function, `melt_data()`, to help you with this step below. Also provided is:
-
-* `get_datetimes()`, a function to deal with converting the column values for datetimes as a pandas series of datetime objects
-* Some good parameters for matplotlib to help make your visualizations more readable. 
-
-Good luck!
+# Project - Time Series Analysis of Zillow housing Data. 
 
 
-# Step 1: Load the Data/Filtering for Chosen Zipcodes
-
-# Step 2: Data Preprocessing
-
-
-```python
-def get_datetimes(df):
-    return pd.to_datetime(df.columns.values[1:], format='%Y-%m')
-```
-
-# Step 3: EDA and Visualization
+#  Load the Data/Filtering Zipcodes
+The goal of this project is to determine 5 zipcodes in the US for investing.The data used in this project can be found at https://www.zillow.com/research/data/ which has about 15k zipcodes. The data used lists housing prices across the US based on zillow housing value index. In an effort to determine the best real estate markets zipcodes were filtered based on urbanization ;top25% of the most urban zipcodes based on the sizewrank metric deviced by zillow was used .To find housing markets that were relatively stable during during the great recession(07-08) , housing markets that did not depreciate in value during this time was chosen . Further more only the housing markets that have returned 3% or more over the past 20 years and are currently experiencing an uptrend for past 2 years were chosen. Furthermore to determine whether the expected return of the investment is worth the degree of volatility,the zipcodes were filtered based on downside risk.The 4th quintile was chosen in this filteration based on the historical returns. This resulted in about 25 zipcodes. Out of these 25 zipcodes the top 10 with highest returns were chosen for forecasting.
 
 
-```python
-font = {'family' : 'normal',
-        'weight' : 'bold',
-        'size'   : 22}
-
-matplotlib.rc('font', **font)
-
-# NOTE: if you visualizations are too cluttered to read, try calling 'plt.gcf().autofmt_xdate()'!
-```
-
-# Step 4: Reshape from Wide to Long Format
+# Data cleaning/Preprocessing
+The data did not require any major cleaning or pre-processing , the only changes that were  made was to convert the data into date time obejct using pandas to_datetime funtion. Futhermore the data was reshaped from wide to long format using pandas melt funtion .
 
 
-```python
-def melt_data(df):
-    melted = pd.melt(df, id_vars=['RegionName', 'City', 'State', 'Metro', 'CountyName'], var_name='time')
-    melted['time'] = pd.to_datetime(melted['time'], infer_datetime_format=True)
-    melted = melted.dropna(subset=['value'])
-    return melted.groupby('time').aggregate({'value':'mean'})
-```
 
-# Step 5: ARIMA Modeling
+# Detrending and accessing/chossing parameters for modelling
 
-# Step 6: Interpreting Results
+The data was transformed using log_transform and detrended using first order finite difference which resulted into 5/10 stationary time series. Second order resulted differencing resulted in all time series to be stationary.All The time series had a mild seasonal component and 
+Based on the ACF and PACF plots there were several significant MA and QA orders. So the best option was to chose the optimum parameters using auto arima . More info on this can be found here https://alkaline-ml.com/pmdarima/
+
+#  ARIMA Modeling
+Using Auto arima parameters , SARIMAX model was chosen along with dynamic forecasting to predict a 5 yr projection of all 10 zipcodes. Overall percent return was calculated as well. 
+
+#  Interpreting Results
+
+Based on 3-5% yearly appreciation we can expect 15-28% overall return in 5 years . Based on the results the 5 best zipcodes are 70806,70808,73069,70810,78753 which on average will return nearly 44% over the next 5 years
+. The reason I selected these 5 zipcodes is because they have 1)The residuals show some changing variation over time but they are relatively stationary,This heteroscedasticity will potentially make the prediction interval slightly inaccurate. 2)Residuals are more or less normally distributed. 3)Although there exists some autocorrelation, it is not particularly large and it is unlikely to have any noticeable impact on the forecasts or the prediction intervals.
+
+# Future Work
+Out of nearly 15k zipcodes the 3 i have come to chose are from Baton rouge LA which suggests that some external factors did not affect the housing market in these regions compared to others during the recession and they continute to appreciate over 5% per year.So I wanted to see if certain zipcodes can be clustered together based on the underlying geography as an external factor. 2) Also the model preiction can be improved by including other external factors such as mortgage rates, local economy, income , crime etc 3) I would like to also inlcude and analyze rental data as rental income can be a factor in real estate investment.
