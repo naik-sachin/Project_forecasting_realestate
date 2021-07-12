@@ -1,12 +1,18 @@
 
-# Project - Time Series Analysis of Zillow housing Data. 
+# Project - Time Series Analysis of Zillows housing Data. 
 
 
-#  Load the Data/Filtering Zipcodes
-The goal of this project is to determine 5 zipcodes in the US for investing.The data used in this project can be found at https://www.zillow.com/research/data/ which has about 15k zipcodes. The data used lists housing prices across the US based on zillow housing value index. In an effort to determine the best real estate markets zipcodes were filtered based on urbanization ;top25% of the most urban zipcodes based on the sizewrank metric deviced by zillow was used .To find housing markets that were relatively stable during during the great recession(07-08) , housing markets that did not depreciate in value during this time was chosen . Further more only the housing markets that have returned 3% or more over the past 20 years and are currently experiencing an uptrend for past 2 years were chosen. Furthermore to determine whether the expected return of the investment is worth the degree of volatility,the zipcodes were filtered based on downside risk.The 4th quintile was chosen in this filteration based on the historical returns. This resulted in about 25 zipcodes. Out of these 25 zipcodes the top 10 with highest returns were chosen for forecasting.
+#  Data:
+**The goal** of this project is to determine 5 zipcodes in the US for investing and then forecast their return rates. 
+<br/>Zillow's research data used for this analysis can be found [here](https://www.zillow.com/research/data/). The data contained about 15k zipcodes. In an effort to determine the best real estate markets, zipcodes were filtered  as follows :
+* Zip codes with the highest urbanization (top 25%) based on Zillow’s urbanization metric.
+* Zip codes that did not depreciate during the great recession (07–08)
+* Zip codes that have returned 3 % or more over the past 20 years
+* Zip codes that are experiencing an uptrend in appreciation rates for past 2 years.
+This resulted in about 100 zip codes as seen below:
+![alt text]()
+<br/>Furthermore to determine whether the expected return of the investment is worth the degree of volatility,the zipcodes were filtered based on downside risk.The 4th quintile was chosen in this filteration based on the historical returns. This resulted in about 25 zipcodes. Out of these 25 zipcodes the top 10 with highest returns were chosen for forecasting.
 
-
-# Data cleaning/Preprocessing
 The data did not require any major cleaning or pre-processing , the only changes that were  made was to convert the data into date time obejct using pandas to_datetime funtion. Futhermore the data was reshaped from wide to long format using pandas melt funtion .
 
 
