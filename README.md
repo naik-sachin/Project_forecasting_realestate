@@ -37,15 +37,19 @@ Outcome for Zipcode 70808 (Baton Rouge)
 
 ![alt text](https://github.com/snaik21352/Project_forecasting_realestate/blob/master/Images/QQ_and%20_correlogram.png)
 
-**Summary:** Overall we can see that the residuals of our model are uncorrelated and have a zero mean normal distribution.
-**Detail:** We can see that in the output summary table all the coeffcients have  P < 0.05, so all of them are statistically significant and we can retain them in our forecasting model. In the top left plot we can see that the residuals over time appear to be white noise with no seasonality. We can further confirm this by the correlogram plot on the bottom right, which shows that there is no statistically significant correlation between the time series residuals and the lagged versions of itself. The stationarity of the residuals and lack of seasonality suggests that the model presented by the SARIMAX utilized all the information presented by the time series.
+We can see that in the output summary table all the coeffcients have  P < 0.05, so all of them are statistically significant and we can retain them in our forecasting model. In the top left plot we can see that the residuals over time appear to be white noise with no seasonality. We can further confirm this by the correlogram plot on the bottom right, which shows that there is no statistically significant correlation between the time series residuals and the lagged versions of itself. The stationarity of the residuals and lack of seasonality suggests that the model presented by the SARIMAX utilized all the information presented by the time series.
 
 In the top right plot we can see that the residuals resembles a standard normal distribution which is important as it indicates that residuals have zero mean and the forecasts are not biased. This can be further verified using the the qq-plot on the bottom left which shows the ordered distribution of residuals (show in dots) closely follows a linear trend of a standard normal distribution(show as a line). 
 
-#  Interpreting Results
+#  Conclusion
 
-Based on 3-5% yearly appreciation we can expect 15-28% overall return in 5 years . Based on the results the 5 best zipcodes are 70806,70808,73069,70810,78753 which on average will return nearly 44% over the next 5 years
-. The reason I selected these 5 zipcodes is because they have 1)The residuals show some changing variation over time but they are relatively stationary,This heteroscedasticity will potentially make the prediction interval slightly inaccurate. 2)Residuals are more or less normally distributed. 3)Although there exists some autocorrelation, it is not particularly large and it is unlikely to have any noticeable impact on the forecasts or the prediction intervals.
+Based on 3-5% yearly appreciation we can expect 15-28% overall return in 5 years . Based on the results the 5 best zipcodes are 70806,70808,73069,70810,78753 which on average will return nearly 44% over the next 5 years. A sample forecast of 70808 is shown below:
+
+![alt text](https://github.com/snaik21352/Project_forecasting_realestate/blob/master/Images/5%20year%20projection.png)
+
+The reason I selected the above mentioned 5 zipcodes is because overall the residuals are uncorrelated and have a zero mean normal distribution. Although there exists some autocorrelation in some of the zipcodes, it is not particularly large and it is unlikely to have any noticeable impact on the forecasts or the prediction intervals.
 
 # Future Work
-Out of nearly 15k zipcodes the 3 i have come to chose are from Baton rouge LA which suggests that some external factors did not affect the housing market in these regions compared to others during the recession and they continute to appreciate over 5% per year.So I wanted to see if certain zipcodes can be clustered together based on the underlying geography as an external factor. 2) Also the model preiction can be improved by including other external factors such as mortgage rates, local economy, income , crime etc 3) I would like to also inlcude and analyze rental data as rental income can be a factor in real estate investment.
+* Out of nearly 15k zipcodes the 3 i have come to chose are from Baton rouge LA which suggests that some external factors did not affect the housing market in these regions compared to others during the recession and they continute to appreciate over 5% per year.So I wanted to see if certain zipcodes can be clustered together based on the underlying geography as an external factor. 
+* Also the model preiction can be improved by including other external factors such as mortgage rates, local economy, income , crime etc 
+* I would like to also inlcude and analyze rental data as rental income can be a factor in real estate investment.
