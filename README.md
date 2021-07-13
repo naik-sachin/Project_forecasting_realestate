@@ -1,9 +1,9 @@
 
 # Project - Time Series Analysis of Zillows housing Data. 
-
+# Introduction:
+For most Americans, their biggest financial investment is their house. To that end there is a lot of money in real estate for investors, REITs or simply an individual home owner who is interested in buying a house as a retirement investment. With this in mind **the goal** of this project is to determine 5 zipcodes in the US for investing and then forecast their return rates using the Box-Jenkins methods. 
 
 #  Data:
-**The goal** of this project is to determine 5 zipcodes in the US for investing and then forecast their return rates. 
 <br/>Zillow's research data used for this analysis can be found [here](https://www.zillow.com/research/data/). The data contained about 15k zipcodes. In an effort to determine the best real estate markets, zipcodes were filtered  as follows :
 * Zip codes with the highest urbanization (top 25%) based on Zillow’s urbanization metric.
 * Zip codes that did not depreciate during the great recession (07–08)
@@ -12,7 +12,12 @@
 This resulted in about 100 zip codes as seen below:
 
 ![alt text](Images/Filtered_100.png)
-<br/>Furthermore to determine whether the expected return of the investment is worth the degree of volatility,the zipcodes were filtered based on downside risk.The 4th quintile was chosen in this filteration based on the historical returns. This resulted in about 25 zipcodes. Out of these 25 zipcodes the top 10 with highest returns were chosen for forecasting.
+
+<br/>Furthermore to determine whether the expected return of the investment is worth the degree of volatility the downside risk was assessed using the coefficient of variance. Downside risk was a constant and had a strong positive correlation with return rates but a relateively weak positive correlation with the amount invested. 
+
+Based on this the 100 zipcodes were filtered based on low downside risk regarless of amount invested. After trying a bunch of subsets the 4th quintile was chosen as it gave the best returns. This resulted in about 25 zipcodes. Out of these 25 zipcodes the top 10 (shown below)with highest returns were chosen for forecasting.
+
+![alt text](Images/top10.png)
 
 
 The data did not require any major cleaning or pre-processing , the only changes that were  made was to convert the data into date time obejct using pandas to_datetime funtion. Futhermore the data was reshaped from wide to long format using pandas melt funtion .
