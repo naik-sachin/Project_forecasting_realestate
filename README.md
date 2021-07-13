@@ -30,11 +30,17 @@ The 100 zipcodes were filtered based on low downside risk regardless of the amou
 Log transformation, rolling means, and differencing was used to detrend the time series and stationarity was evaluated using the Dickey-Fuller Test. Log transform and rolling mean were not very effective as it yielded only 1/10 to be stationary.First order finite differencing resulted into 5 of the time series to be stationary. Second order resulted differencing resulted in all time series to be almost stationary with a mild seasonal component. This seasonality was assessed using ACF and PACF plots, and a lot of the time seies had more than 1 significant MA and QA orders. So the best option was to chose the optimum parameters using some form of gridsearch or parameter turning. Since this had to be done for 10 zipcodes the most efficent way was to use a  Python wrapper that automatically selects the parameters. More info on this can be found [here.](https://alkaline-ml.com/pmdarima/)
 
 #  ARIMA Modeling
-Using Auto arima parameters I chose to utilize the SARIMAX model considering the seasonality in the time series. The projections was perfomed using dynamic forecasting to predict a 5 yr projection of all 10 zipcodes. Based on this projection 5-years return were calculated.  A sample of the outcome for one of the promising zipcodes is as follows:
-Outcome for Zipcode 70808 (Baton Rouge)
-![alt text](Images/top10.png)
-Standardized residuals over time are stationary
+Using Auto arima parameters I chose to utilize the SARIMAX model considering the seasonality in the time series. The projections were perfomed using dynamic forecasting to predict a 5 yr projection of all 10 zipcodes. Based on this projection 5-year returns were calculated. A sample of the statsmodel SARIMAX output summary and interpretation for one of the promising zipcodes is as follows:
 
+Outcome for Zipcode 70808 (Baton Rouge)
+![alt text](https://github.com/snaik21352/Project_forecasting_realestate/blob/master/Images/residual_and_KDE.png) 
+
+![alt text](https://github.com/snaik21352/Project_forecasting_realestate/blob/master/Images/QQ_and%20_correlogram.png)
+
+**Summary:** Overall we can see that the residuals of our model are uncorrelated and have a zero mean normal distribution.
+**Detail:** We can see that in the output summary table all the coeffcients have  P < 0.05, so all of them are statistically significant and we can retain them in our forecasting model. In the top left plot we can see that the residuals over time appear to be white noise with no seasonality. We can further confirm this by the correlogram plot on the bottom right, which shows that there is no statistically significant correlation between the time series residuals and the lagged versions of itself. The stationarity of the residuals and lack of seasonality suggests that the model presented by the SARIMAX utilized all the information presented by the time series.
+
+In the top right plot we can see that the residuals resembles a standard normal distribution which is important as it indicates that residuals have zero mean and the forecasts are not biased. This can be further verified using the the qq-plot on the bottom left which shows the ordered distribution of residuals (show in dots) closely follows a linear trend of a standard normal distribution(show as a line). 
 
 #  Interpreting Results
 
