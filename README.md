@@ -4,33 +4,37 @@
 For most Americans, their biggest financial investment is their house. To that end there is a lot of money in real estate for investors, REITs or simply an individual home owner who is interested in buying a house as a retirement investment. With this in mind **the goal** of this project is to determine 5 zipcodes in the US for investing and then forecast their return rates using the Box-Jenkins methods. 
 
 #  Data:
-<br/>Zillow's research data used for this analysis can be found [here](https://www.zillow.com/research/data/). The data contained about 15k zipcodes. In an effort to determine the best real estate markets, zipcodes were filtered  as follows :
+<br/>Zillow's research data used for this analysis can be found [here](https://www.zillow.com/research/data/). The data contained about 15k zipcodes. The data did not require any major cleaning or pre-processin; the only changes that were  made was to convert the data into date time object using pandas and then reshaping it from wide to long format using pandas melt funtion.
+
+In an effort to determine the best real estate markets, zipcodes were filtered  as follows :
 * Zip codes with the highest urbanization (top 25%) based on Zillow’s urbanization metric.
 * Zip codes that did not depreciate during the great recession (07–08)
 * Zip codes that have returned 3 % or more over the past 20 years
 * Zip codes that are experiencing an uptrend in appreciation rates for past 2 years.
+
 This resulted in about 100 zip codes as seen below:
 
 ![alt text](Images/Filtered_100.png)
 
-<br/>Furthermore to determine whether the expected return of the investment is worth the degree of volatility the downside risk was assessed using the coefficient of variance. Downside risk was a constant and had a strong positive correlation with return rates but a relateively weak positive correlation with the amount invested. 
+<br/>Furthermore to determine whether the expected return of the investment is worth the degree of volatility the downside risk was assessed using the coefficient of variance. Downside risk was a constant and had a strong positive correlation with return rates but a relateively weak positive correlation with the amount invested as seen below.
 
-Based on this the 100 zipcodes were filtered based on low downside risk regarless of amount invested. After trying a bunch of subsets the 4th quintile was chosen as it gave the best returns. This resulted in about 25 zipcodes. Out of these 25 zipcodes the top 10 (shown below)with highest returns were chosen for forecasting.
+![alt text](Images/CV%20vs%20return.png)
+![alt text](Images/cv_amount.png)
+
+The 100 zipcodes were filtered based on low downside risk regardless of the amount invested. After trying a bunch of subsets the 4th quintile was chosen as it gave the best returns. This resulted in about 25 zipcodes. Out of these 25 zipcodes the top 10 (shown below) with highest returns were chosen for forecasting.
 
 ![alt text](Images/top10.png)
 
+# Detrending and assessing/choosing ARMA parameters for modelling
 
-The data did not require any major cleaning or pre-processing , the only changes that were  made was to convert the data into date time obejct using pandas to_datetime funtion. Futhermore the data was reshaped from wide to long format using pandas melt funtion .
-
-
-
-# Detrending and accessing/chossing parameters for modelling
-
-The data was transformed using log_transform and detrended using first order finite difference which resulted into 5/10 stationary time series. Second order resulted differencing resulted in all time series to be stationary.All The time series had a mild seasonal component and 
-Based on the ACF and PACF plots there were several significant MA and QA orders. So the best option was to chose the optimum parameters using auto arima . More info on this can be found here https://alkaline-ml.com/pmdarima/
+Log transformation, rolling means, and differencing was used to detrend the time series and stationarity was evaluated using the Dickey-Fuller Test. Log transform and rolling mean were not very effective as it yielded only 1/10 to be stationary.First order finite differencing resulted into 5 of the time series to be stationary. Second order resulted differencing resulted in all time series to be almost stationary with a mild seasonal component. This seasonality was assessed using ACF and PACF plots, and a lot of the time seies had more than 1 significant MA and QA orders. So the best option was to chose the optimum parameters using some form of gridsearch or parameter turning. Since this had to be done for 10 zipcodes the most efficent way was to use a  Python wrapper that automatically selects the parameters. More info on this can be found [here.](https://alkaline-ml.com/pmdarima/)
 
 #  ARIMA Modeling
-Using Auto arima parameters , SARIMAX model was chosen along with dynamic forecasting to predict a 5 yr projection of all 10 zipcodes. Overall percent return was calculated as well. 
+Using Auto arima parameters I chose to utilize the SARIMAX model considering the seasonality in the time series. The projections was perfomed using dynamic forecasting to predict a 5 yr projection of all 10 zipcodes. Based on this projection 5-years return were calculated.  A sample of the outcome for one of the promising zipcodes is as follows:
+Outcome for Zipcode 70808 (Baton Rouge)
+![alt text](Images/top10.png)
+Standardized residuals over time are stationary
+
 
 #  Interpreting Results
 
