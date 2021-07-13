@@ -43,7 +43,7 @@ In the top right plot we can see that the residuals resembles a standard normal 
 
 #  Conclusion
 
-Based on 3-5% yearly appreciation we can expect 15-28% overall return in 5 years . Based on the results the 5 best zipcodes are 70806,70808,73069,70810,78753 which on average will return nearly 44% over the next 5 years. A sample forecast of 70808 is shown below:
+Based on 3-5% yearly appreciation we can expect 15-28% overall return in 5 years . Based on the results the 5 best zipcodes are 70806,70808,73069,70810,78753 which on average will return nearly 44% over the next 5 years. A sample forecast for zipcode 70808 is shown below:
 
 ![alt text](https://github.com/snaik21352/Project_forecasting_realestate/blob/master/Images/5%20year%20projection.png)
 
